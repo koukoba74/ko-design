@@ -103,6 +103,13 @@
         overflow: hidden;
         background-color: #fff;
     }
+    .works > div > a:link, 
+    .works > div > a:hover, 
+    .works > div > a:visited, 
+    .works > div > a:active {
+        text-decoration: none;
+        color: #FFF500;
+    }
     .works > div > a > img:hover {
         transform: scale(1.2);
         transition-duration: 0.5s;
@@ -272,6 +279,13 @@
     .works > div {
         overflow: hidden;
         background-color: #fff;
+    }
+    .works > div > a:link, 
+    .works > div > a:hover, 
+    .works > div > a:visited, 
+    .works > div > a:active {
+        text-decoration: none;
+        color: #FFF500;
     }
     .works > div > a > img:hover {
         transform: scale(1.2);
