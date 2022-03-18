@@ -1,0 +1,492 @@
+@charset "utf-8";
+
+
+/*===========================================================*/
+/* 背景色が伸びる（下から上） */
+/*===========================================================*/
+
+
+/*========= ローディング画面のためのCSS ===============*/
+#splash {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: #333;
+	z-index: 9999999;
+	text-align:center;
+	color:#fff;
+}
+
+#splash-logo {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.logo{
+	width:200px;
+}
+
+/*========= 画面遷移のためのCSS ===============*/
+
+/*画面遷移アニメーション*/
+
+.splashbg{
+	display: none;
+}
+
+body.appear .splashbg{
+    display: block;
+    position:fixed;
+	z-index: 999;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+	left: 0;
+    transform: scaleY(0);
+    background-color: #fff;/*伸びる背景色の設定*/
+	animation-name:PageAnime;
+	animation-duration:1.2s;
+	animation-timing-function:ease-in-out;
+	animation-fill-mode:forwards;
+
+}
+
+@keyframes PageAnime{
+	0% {
+		transform-origin:bottom;
+		transform:scaleY(0);
+	}
+	50% {
+		transform-origin:bottom;
+		transform:scaleY(1);
+	}
+	50.001% {
+		transform-origin:top;
+	}
+	100% {
+		transform-origin:top;
+		transform:scaleY(0);
+	}
+}
+
+/*画面遷移の後現れるコンテンツ設定*/
+
+#wrapper{
+	opacity: 0;/*はじめは透過0に*/
+}
+
+/*bodyにappearクラスがついたら出現*/
+body.appear #wrapper{
+	animation-name:PageAnimeAppear;
+	animation-duration:1s;
+	animation-delay: 0.8s;
+	animation-fill-mode:forwards;
+	opacity: 0;
+}
+
+@keyframes PageAnimeAppear{
+	0% {
+	opacity: 0;
+	}
+	100% {
+	opacity: 1;
+}
+}
+
+
+/*===========================================================*/
+/*機能編  MENUをクリックしたらナビが下から上に出現 */
+/*===========================================================*/
+#g-nav{
+    /*position:fixed;にし、z-indexの数値を大きくして前面へ*/
+    position:fixed;
+    z-index: 999;
+    /*ナビのスタート位置と形状*/
+	bottom:-120%;
+	width:100%;
+    height: 100vh;/*ナビの高さ*/
+	background: #333;
+    /*動き*/
+	transition: all 0.6s;
+}
+
+/*アクティブクラスがついたら位置を0に*/
+#g-nav.panelactive{
+    bottom: 0;
+}
+
+/*ナビゲーションの縦スクロール*/
+#g-nav #g-nav-list{
+    /*ナビの数が増えた場合縦スクロール*/
+    position: fixed;
+    z-index: 999; 
+    width: 100%;
+    height: 100vh;/*表示する高さ*/
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/*ナビゲーション*/
+#g-nav ul {
+    /*ナビゲーション天地中央揃え*/
+    position: absolute;
+    z-index: 999;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+
+/*リストのレイアウト設定*/
+
+#g-nav li{
+	list-style: none;
+    text-align: center; 
+}
+
+#g-nav li a{
+	color: #fff;
+	text-decoration: none;
+	padding:10px;
+	display: block;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-weight: bold;
+}
+
+/*===========================================================*/
+/*MENUが×に */
+/*===========================================================*/
+
+.openbtn{
+	position:fixed;
+    z-index: 9999;/*ボタンを最前面に*/
+	top:0;
+	right: 0;
+	cursor: pointer;
+    width: 80px;
+    height: 65px;
+    border-left:2px solid #fff;
+}
+	
+/*ボタン内側*/
+.openbtn span{
+    display: inline-block;
+    transition: all .4s;/*アニメーションの設定*/
+    position: absolute;
+}
+
+.openbtn span:nth-of-type(1),
+.openbtn span:nth-of-type(3) {
+    height: 2px;
+	background: #fff;
+	width:30%;
+    opacity: 0;
+    top:22px;
+    left:20px;
+}
+
+.openbtn span:nth-of-type(2) {
+	top:27px;
+	left:20px;
+	text-transform: uppercase;
+	color: #fff;
+    font-size: 1.2rem;
+	font-weight: bold;
+}
+
+/*activeクラスが付与されると線が回転して×になり、Menu表記をしている2つ目の要素が透過して消える*/
+
+.openbtn.active span:nth-of-type(1),
+.openbtn.active span:nth-of-type(3) {
+    opacity:1;
+}
+
+.openbtn.active span:nth-of-type(1) {
+    top: 28px;
+    left: 30px;
+    transform: translateY(6px) rotate(-45deg);
+}
+
+.openbtn.active span:nth-of-type(2) {
+	opacity:0;
+}
+
+.openbtn.active span:nth-of-type(3){
+    top: 40px;
+    left: 30px;
+    transform: translateY(-6px) rotate(45deg);
+}
+/*===========================================================*/
+/*ページの指定の高さを超えたら右から出現*/
+/*===========================================================*/
+
+/*リンクの形状*/
+#page-top a{
+	display: flex;
+	justify-content:center;
+	align-items:center;
+	background:#333;
+	width: 60px;
+	height: 50px;
+	color: #fff;
+	text-align: center;
+	text-transform: uppercase; 
+	text-decoration: none;
+	font-size:0.6rem;
+	transition:all 0.3s;
+}
+
+#page-top a:hover{
+	background: #777;
+}
+
+/*リンクを右下に固定*/
+#page-top {
+	position: fixed;
+	right: 0;
+	bottom:0;
+	z-index: 2;
+    /*はじめは非表示*/
+	opacity: 0;
+	transform: translateX(100px);
+}
+
+/*　左の動き　*/
+
+#page-top.LeftMove{
+	animation: LeftAnime 0.5s forwards;
+}
+
+@keyframes LeftAnime{
+  from {
+    opacity: 0;
+	transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+	transform: translateX(0);
+  }
+}
+
+/*　右の動き　*/
+
+#page-top.RightMove{
+	animation: RightAnime 0.5s forwards;
+}
+@keyframes RightAnime{
+  from {
+  	opacity: 1;
+	transform: translateX(0);
+  }
+  to {
+  	opacity: 1;
+	transform: translateX(100px);
+  }
+}
+
+/*===========================================================*/
+/* アニメーション/
+/*===========================================================*/
+
+.floatUp {
+	animation-name: floatUpAnime;
+	animation-duration: 5s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes floatUpAnime {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+/* 左からスライドイン */
+.slideLeftIn {
+	animation-name: slideLeftInAnime;
+	animation-duration: 1s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes slideLeftInAnime {
+	from {
+		opacity: 0;
+		transform: translateX(-1000px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+/* 右から */
+.slideRightIn {
+	animation-name: slideRightInAnime;
+	animation-duration: 1s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes slideRightInAnime {
+	from {
+		opacity: 0;
+		transform: translateX(1000px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+
+/*　シャッ（左から）*/
+.bgextend{
+	animation-name:bgextendAnimeBase;
+	animation-duration:1s;
+	animation-fill-mode:forwards;
+	position: relative;
+	overflow: hidden;/*　はみ出た色要素を隠す　*/
+	opacity:0;
+}
+
+@keyframes bgextendAnimeBase{
+	from {
+		opacity:0;
+	}
+
+	to {
+		opacity:1;  
+	}
+}
+
+/*中の要素*/
+.bgappear{
+	animation-name:bgextendAnimeSecond;
+	animation-duration:1s;
+	animation-delay: 0.6s;
+	animation-fill-mode:forwards;
+	opacity: 0;
+}
+
+@keyframes bgextendAnimeSecond{
+	0% {
+	opacity: 0;
+	}
+	100% {
+	opacity: 1;
+}
+}
+
+.bgLRextend::before{
+	animation-name:bgLRextendAnime;
+	animation-duration:1s;
+	animation-fill-mode:forwards;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;/*伸びる背景色の設定*/
+}
+@keyframes bgLRextendAnime{
+	0% {
+		transform-origin:left;
+		transform:scaleX(0);
+	}
+	50% {
+		transform-origin:left;
+		transform:scaleX(1);
+	}
+	50.001% {
+		transform-origin:right;
+	}
+	100% {
+		transform-origin:right;
+		transform:scaleX(0);
+	}
+}
+
+/* 下から上に浮かぶ*/
+
+.fadeUp{
+animation-name: fadeUpAnime;
+animation-duration:0.5s;
+animation-fill-mode:forwards;
+opacity:0;
+}
+
+@keyframes fadeUpAnime{
+	from {
+		opacity: 0;
+		transform: translateY(100px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+
+/* パタッ */
+.flipLeft{
+animation-name: flipLeftAnime;
+animation-duration:0.5s;
+animation-fill-mode:forwards;
+perspective-origin: left center;
+opacity:0;
+}
+
+@keyframes flipLeftAnime{
+	from {
+	transform: perspective(600px) translate3d(0, 0, 0) rotateY(30deg);
+		opacity: 0;
+	}
+
+	to {
+	transform: perspective(600px) translate3d(0, 0, 0) rotateY(0deg);
+	opacity: 1;
+	}
+}
+
+.flipRight{
+	animation-name: flipRightAnime;
+	animation-duration:0.5s;
+	animation-fill-mode:forwards;
+	perspective-origin: right center;
+	opacity:0;
+	}
+	
+	@keyframes flipRightAnime{
+		from {
+			transform: perspective(600px) translate3d(0, 0, 0) rotateY(-30deg);
+			opacity: 0;
+	}
+	
+	to {
+	transform: perspective(600px) translate3d(0, 0, 0) rotateY(0deg);
+	opacity: 1;
+	}
+	}
+
+/* スマホ表示用。flipLeftTriggerを指定している親要素に指定しないとうまく動かない*/
+#vision,
+.service-area{
+    transform:  translate3d(0, 0, 0);
+}
+
+/* スクロールをしたら出現する要素にはじめに透過0を指定　*/
+.bgLRextendTrigger,
+.bgappearTrigger,
+.fadeUpTrigger,
+.flipLeftTrigger,
+.flipRightTrigger
+.slideLeftInTrigger
+.slideRightInTrigger
+.floatUpTrigger{
+    opacity: 0;
+}
