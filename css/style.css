@@ -103,13 +103,17 @@
         overflow: hidden;
         background-color: #fff;
     }
-    .works > div > a:link, 
-    .works > div > a:hover, 
-    .works > div > a:visited, 
-    .works > div > a:active {
+    .works > p > a:link, 
+    .works > p > a:visited, 
+    .works > p > a:active {
         text-decoration: none;
         color: #FFF500;
     }
+    .works > p > a:hover {
+        color: #FFF500;
+        text-decoration: underline;
+    }
+
     .works > div > a > img:hover {
         transform: scale(1.2);
         transition-duration: 0.5s;
@@ -280,12 +284,15 @@
         overflow: hidden;
         background-color: #fff;
     }
-    .works > div > a:link, 
-    .works > div > a:hover, 
-    .works > div > a:visited, 
-    .works > div > a:active {
+    .works > p > a:link, 
+    .works > p > a:visited, 
+    .works > p > a:active {
         text-decoration: none;
         color: #FFF500;
+    }
+    .works > p > a:hover {
+        color: #FFF500;
+        text-decoration: underline;
     }
     .works > div > a > img:hover {
         transform: scale(1.2);
